@@ -78,47 +78,47 @@ os.environ['NVIDIA_API_KEY'] = NVCF_API_KEY
 
 
 
-# Initialize S3 client
-s3 = boto3.client(
-    platform,
-    aws_access_key_id=aws_access_key_id,
-    aws_secret_access_key=aws_secret_access_key,
-    region_name=region_name
-)
+# # Initialize S3 client
+# s3 = boto3.client(
+#     platform,
+#     aws_access_key_id=aws_access_key_id,
+#     aws_secret_access_key=aws_secret_access_key,
+#     region_name=region_name
+# )
 
-def aws_credentials_feedback():
-    # AWS S3 Bucket details
-    bucket_name = memory_location
-    s3_file_path = 'feedback/feedback_data.xlsx'  # Path in the S3 bucket
-    local_file_path = 'feedback_data.xlsx'
+# def aws_credentials_feedback():
+#     # AWS S3 Bucket details
+#     bucket_name = memory_location
+#     s3_file_path = 'feedback/feedback_data.xlsx'  # Path in the S3 bucket
+#     local_file_path = 'feedback_data.xlsx'
 
-    return bucket_name, s3_file_path, local_file_path, s3
+#     return bucket_name, s3_file_path, local_file_path, s3
 
 
-def aws_credentials_chat_history():
-    # AWS S3 Bucket details
-    bucket_name = memory_location
-    s3_file_path = 'saved_chats/chat_history.xlsx'  # Path in the S3 bucket
-    local_file_path = 'chat_history.xlsx'
+# def aws_credentials_chat_history():
+#     # AWS S3 Bucket details
+#     bucket_name = memory_location
+#     s3_file_path = 'saved_chats/chat_history.xlsx'  # Path in the S3 bucket
+#     local_file_path = 'chat_history.xlsx'
 
-    return bucket_name, s3_file_path, local_file_path, s3
+#     return bucket_name, s3_file_path, local_file_path, s3
 
-@ st.cache_data()
-def get_aws_files():
+# @ st.cache_data()
+# def get_aws_files():
 
-    # Initialize S3 client
-    s3 = boto3.client(
-        platform,
-        aws_access_key_id=aws_access_key_id,
-        aws_secret_access_key=aws_secret_access_key,
-        region_name=region_name
-    )
+#     # Initialize S3 client
+#     s3 = boto3.client(
+#         platform,
+#         aws_access_key_id=aws_access_key_id,
+#         aws_secret_access_key=aws_secret_access_key,
+#         region_name=region_name
+#     )
         
-    # Use the list_objects_v2 API to get objects in the bucket
-    result = s3.list_objects_v2(Bucket=memory_location, Prefix='DP Allocation File/')
-    extracted_values = [os.path.basename(d['Key']) for d in result['Contents']]
+#     # Use the list_objects_v2 API to get objects in the bucket
+#     result = s3.list_objects_v2(Bucket=memory_location, Prefix='DP Allocation File/')
+#     extracted_values = [os.path.basename(d['Key']) for d in result['Contents']]
 
-    return extracted_values[1:]
+#     return extracted_values[1:]
 
 @ st.cache_data()
 def get_local_files():
@@ -149,8 +149,8 @@ def get_current_fiscal_dates():
 
     return fiscal_month, fiscal_quarter, fiscal_year
 
-bucket_name, s3_file_path_feedback, local_file_path_feedback, s3 = aws_credentials_feedback()
-_, s3_file_path_chat_history, local_file_path_chat_history, _ = aws_credentials_chat_history()
+# bucket_name, s3_file_path_feedback, local_file_path_feedback, s3 = aws_credentials_feedback()
+# _, s3_file_path_chat_history, local_file_path_chat_history, _ = aws_credentials_chat_history()
 
 # Encapsulated function to handle saving feedback locally
 def save_feedback_locally(feedback, file_path):
@@ -270,13 +270,13 @@ def anaplan_view_compare_changes(data1, data2):
 def load_data(file, sheet_name):
     return pd.read_excel(file, sheet_name=sheet_name)
 
-@st.cache_data
-def loading_csv(file):
-    response = s3.get_object(Bucket=bucket_name, Key=f'DP Allocation File/{file}')
-    csv_content = response['Body'].read().decode('utf-8')
-    output = pd.read_csv(StringIO(csv_content))
+# @st.cache_data
+# def loading_csv(file):
+#     response = s3.get_object(Bucket=bucket_name, Key=f'DP Allocation File/{file}')
+#     csv_content = response['Body'].read().decode('utf-8')
+#     output = pd.read_csv(StringIO(csv_content))
 
-    return output
+#     return output
 
 @st.cache_data
 def loading_local_csv(file):
@@ -489,14 +489,14 @@ def content_screen():
         feedback = st.text_area("Please provide your feedback here:", height=150)
         if st.button(":material/check: Submit", help="Click to submit feedback"):
             if feedback:            
-                save_feedback_locally(feedback, local_file_path_feedback)
-                upload_feedback_to_s3(
-                    s3_object=s3,
-                    file_path=local_file_path_feedback,
-                    bucket=bucket_name, 
-                    s3_key=s3_file_path_feedback
-                )
-            st.toast("Thank you for submitting feedback", icon=":material/thumb_up:")
+                # save_feedback_locally(feedback, local_file_path_feedback)
+                # upload_feedback_to_s3(
+                #     s3_object=s3,
+                #     file_path=local_file_path_feedback,
+                #     bucket=bucket_name, 
+                #     s3_key=s3_file_path_feedback
+                # )
+                st.toast("Thank you for submitting feedback", icon=":material/thumb_up:")
 
     status_placeholder = st.empty()
     error_occurred = False
@@ -1016,17 +1016,17 @@ def content_screen():
                                 st.plotly_chart(fig_returned)
                                 st.session_state.messages_display.append({'role': 'plot', 'figure': fig_returned}) 
 
-                    if share_data == "Yes":
-                        save_chat_history_locally(
-                            data_list=st.session_state.messages, 
-                            file_path='chat_history.xlsx'
-                        )
-                        upload_chat_history_to_s3(
-                            s3_object=s3, 
-                            file_path=local_file_path_chat_history, 
-                            bucket=bucket_name, 
-                            s3_key=s3_file_path_chat_history
-                        )
+                    # if share_data == "Yes":
+                    #     save_chat_history_locally(
+                    #         data_list=st.session_state.messages, 
+                    #         file_path='chat_history.xlsx'
+                    #     )
+                    #     upload_chat_history_to_s3(
+                    #         s3_object=s3, 
+                    #         file_path=local_file_path_chat_history, 
+                    #         bucket=bucket_name, 
+                    #         s3_key=s3_file_path_chat_history
+                    #     )
 
                     # Clearing the LLM generated code 
                     with open("llm_generated_code.py", "w") as file:
@@ -1602,18 +1602,18 @@ def content_screen():
                                 st.write(e)
                                 st.write("Error has occurred during code execution. Working on the debugger LLM so that it corrects the error from the code.")
 
-                        if share_data:
-                            save_chat_history_locally(
-                                data_list=st.session_state.messages, 
-                                file_path='chat_history.xlsx'
-                            )
+                        # if share_data:
+                        #     save_chat_history_locally(
+                        #         data_list=st.session_state.messages, 
+                        #         file_path='chat_history.xlsx'
+                        #     )
 
-                            upload_chat_history_to_s3(
-                                s3_object=s3, 
-                                file_path=local_file_path_chat_history, 
-                                bucket=bucket_name, 
-                                s3_key=s3_file_path_chat_history
-                            )
+                        #     upload_chat_history_to_s3(
+                        #         s3_object=s3, 
+                        #         file_path=local_file_path_chat_history, 
+                        #         bucket=bucket_name, 
+                        #         s3_key=s3_file_path_chat_history
+                        #     )
 
                         # Clearing the LLM generated code 
                         with open("llm_generated_code.py", "w") as file:
