@@ -13,3 +13,4 @@ holidays
 xgboost
 cryptography
 langchain-nvidia-ai-endpoints
+fastapi
