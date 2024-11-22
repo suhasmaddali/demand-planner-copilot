@@ -1,0 +1,75 @@
+default:
+  image: python:3.11.9-slim
+  tags:
+    - python-runner
+
+stages:
+  - develop
+  - develop review
+  - test
+  - test review
+  - deploy
+
+before_script:
+  - pip install --upgrade pip
+  - pip install --no-cache-dir -r requirements.txt
+
+development:
+  stage: develop
+  script:
+    - timeout 30s streamlit run app_dev.py &
+    - sleep 5 
+    - STREAMLIT_PID=$!
+    - kill $STREAMLIT_PID
+  only:
+    - dev-suhas
+    - master
+    - merge_requests
+  after_script:
+    - echo "Successfully completed the test phase..."
+
+develop review:
+  stage: develop review
+  script:
+    - timeout 30s streamlit run app_dev.py &
+    - sleep 5
+    - STREAMLIT_PID=$!
+    - kill $STREAMLIT_PID
+  when: manual
+  only:
+    - dev-suhas
+    - master
+    - merge_requests
+  after_script:
+    - echo "Successfully completed the deployment review..."
+
+test:
+  stage: test
+  script:
+    - echo "Entered the testing phase..."
+  after_script:
+    - echo "Successfully completed the testing phase..."
+  only:
+    - master
+
+test review:
+  stage: test review
+  script:
+    - echo "Entered the test review phase..."
+  after_script:
+    - echo "Successfully completed the test review..."
+  when: manual
+  only:
+    - master
+
+deployment:
+  stage: deploy
+  before_script:
+    - pip install --upgrade pip
+    - pip install --no-cache-dir -r requirements.txt
+  script:
+    - echo "Entered the deployment phase..."
+  after_script:
+    - echo "Successfully completed the deployment phase..."
+  only:
+    - master

@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  development:
+    image: suhasmaddali/demandplannercopilot
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./:/app
+    ports:
+      - "8501:8501"
+  
+  testing:
+    image: suhasmaddali/demandplannercopilottest
+    build: .
+    volumes:
+      - ./:/app
+    ports:
+      - "8501:8501"
+
+  testing_streamlit:
+    image: suhasmaddali/streamlittest
+    build: 
+      context: .
+      dockerfile: Dockerfile.test
+    volumes:
+      - ./:/app
+    ports:
+      - "8501:8501"
+
+  deployment:
+    image: suhasmaddali/demandplannercopilot
+    build: .
+    volumes:
+      - ./:/app
+    ports:
+      - "8501:8501"

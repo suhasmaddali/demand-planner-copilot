@@ -1,0 +1,9 @@
+[server]
+maxUploadSize = 5000
+
+[theme]
+primaryColor = "#76B900"  # Replace with your preferred primary color
+backgroundColor = "#1C1C1C"  # Background color for the app
+secondaryBackgroundColor = "#2E2E2E"  # Sidebar and other secondary backgrounds
+textColor = "#F1F1F1"  # Main text color
+font = "sans serif"  # Font style
