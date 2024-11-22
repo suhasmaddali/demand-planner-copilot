@@ -3,13 +3,22 @@ import streamlit as st
 import os
 from langchain_nvidia_ai_endpoints import register_model, Model, ChatNVIDIA
 
-base_url = st.secrets['USER CREDENTIALS']['BASE_URL']
-api_key = st.secrets['USER CREDENTIALS']['API_KEY']
+# base_url = st.secrets['USER CREDENTIALS']['BASE_URL']
+# api_key = st.secrets['USER CREDENTIALS']['API_KEY']
 
-# Getting access to NVCF credentials for inference
-NVCF_CHAT_FUNCTION_ID = st.secrets['NVCF CREDENTIALS']['NVCF_CHAT_FUNCTION_ID']
+# # Getting access to NVCF credentials for inference
+# NVCF_CHAT_FUNCTION_ID = st.secrets['NVCF CREDENTIALS']['NVCF_CHAT_FUNCTION_ID']
+# NVCF_URL = f"https://api.nvcf.nvidia.com/v2/nvcf/pexec/functions/{NVCF_CHAT_FUNCTION_ID}"
+# NVCF_API_KEY = st.secrets['NVCF CREDENTIALS']['NVCF_API_KEY']
+# MODEL = "meta/llama-3.1-8b-instruct"
+# os.environ['NVIDIA_API_KEY'] = NVCF_API_KEY
+
+base_url = os.getenv('USER_CREDENTIALS_BASE_URL')
+api_key = os.getenv('USER_CREDENTIALS_API_KEY')
+
+NVCF_CHAT_FUNCTION_ID = os.getenv('NVCF_CHAT_FUNCTION_ID')
 NVCF_URL = f"https://api.nvcf.nvidia.com/v2/nvcf/pexec/functions/{NVCF_CHAT_FUNCTION_ID}"
-NVCF_API_KEY = st.secrets['NVCF CREDENTIALS']['NVCF_API_KEY']
+NVCF_API_KEY = os.getenv('NVCF_API_KEY')
 MODEL = "meta/llama-3.1-8b-instruct"
 os.environ['NVIDIA_API_KEY'] = NVCF_API_KEY
 
