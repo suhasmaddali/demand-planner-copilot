@@ -2014,18 +2014,18 @@ def content_screen():
 
                 #     st.session_state.messages_display.append({'role': 'adhoc', 'message from adhoc query': result})
 
-                if share_data:
-                    save_chat_history_locally(
-                        data_list=st.session_state.messages, 
-                        file_path='chat_history.xlsx'
-                    )
+                # if share_data:
+                #     save_chat_history_locally(
+                #         data_list=st.session_state.messages, 
+                #         file_path='chat_history.xlsx'
+                #     )
 
-                    upload_chat_history_to_s3(
-                        s3_object=s3, 
-                        file_path=local_file_path_chat_history, 
-                        bucket=bucket_name, 
-                        s3_key=s3_file_path_chat_history
-                    )
+                #     upload_chat_history_to_s3(
+                #         s3_object=s3, 
+                #         file_path=local_file_path_chat_history, 
+                #         bucket=bucket_name, 
+                #         s3_key=s3_file_path_chat_history
+                #     )
 
                 # Clearing the LLM generated code 
                 with open("llm_generated_code.py", "w") as file:
@@ -2049,69 +2049,70 @@ if __name__ == "__main__":
 
     st.markdown('<h1 class="title">Demand Planner Co-Pilot 📊</h1>', unsafe_allow_html=True)
     st.markdown("**Prompt about your data, and get actionable insights (*check for accuracy*)** ✨")
+    content_screen()
 
-    auth_provider = AzureADOAuthProvider()
+    # auth_provider = AzureADOAuthProvider()
 
-    # Session and local storage check
-    if "logged_in" not in st.session_state:
-        st.session_state.logged_in = False
-    if "token" not in st.session_state:
-        st.session_state.token = None
-    if "logout_clicked" not in st.session_state:
-        st.session_state.logout_clicked = False
+    # # Session and local storage check
+    # if "logged_in" not in st.session_state:
+    #     st.session_state.logged_in = False
+    # if "token" not in st.session_state:
+    #     st.session_state.token = None
+    # if "logout_clicked" not in st.session_state:
+    #     st.session_state.logout_clicked = False
 
-    authorize_url = f"{auth_provider.get_authorize_url()}&prompt=login"
+    # authorize_url = f"{auth_provider.get_authorize_url()}&prompt=login"
 
-    # Handle login if the authorization code is in query params and user is not logged in
-    if "code" in st.query_params and not st.session_state.logged_in:
-        code = st.query_params.get("code")
-        try:
-            st.session_state.token = auth_provider.get_token(code)
-            st.query_params.clear()
-            user_info = auth_provider.get_user_info(st.session_state.token)
-            st.session_state.logged_in = True
-            # local_storage.setItem("logged_in", "true", key="login_status_key")
-            # local_storage.setItem("token", st.session_state.token, key="token_key")
-        except Exception as e:
-            st.error(f"An error occurred: {e}")
+    # # Handle login if the authorization code is in query params and user is not logged in
+    # if "code" in st.query_params and not st.session_state.logged_in:
+    #     code = st.query_params.get("code")
+    #     try:
+    #         st.session_state.token = auth_provider.get_token(code)
+    #         st.query_params.clear()
+    #         user_info = auth_provider.get_user_info(st.session_state.token)
+    #         st.session_state.logged_in = True
+    #         # local_storage.setItem("logged_in", "true", key="login_status_key")
+    #         # local_storage.setItem("token", st.session_state.token, key="token_key")
+    #     except Exception as e:
+    #         st.error(f"An error occurred: {e}")
 
-    # Display logged-in status and user info
-    if st.session_state.logged_in:
-        try:
-            user_info = auth_provider.get_user_info(st.session_state.token)
-        except:
-            # Clear session state and local storage on logout
-            st.session_state.clear()
-            st.session_state.logout_clicked = True  # Set logout flag
-            st.rerun()  # First rerun to clear session and storage
+    # # Display logged-in status and user info
+    # if st.session_state.logged_in:
+    #     try:
+    #         user_info = auth_provider.get_user_info(st.session_state.token)
+    #     except:
+    #         # Clear session state and local storage on logout
+    #         st.session_state.clear()
+    #         st.session_state.logout_clicked = True  # Set logout flag
+    #         st.rerun()  # First rerun to clear session and storage
 
-        dl_user_allowed = check_user_eligibility(
-            user_info=user_info,
-            dls_list=["anoguera-staff"],
-        )
-        if dl_user_allowed:
-            content_screen()
-        else:
-            with st.chat_message("assistant", avatar="🤖"):
-                st.markdown("Please request access to the application using the DL address provided. Thank you.")
-                st.markdown("If you have been provided DL access, please ensure to turn on VPN before signing.")
+    #     dl_user_allowed = check_user_eligibility(
+    #         user_info=user_info,
+    #         dls_list=["anoguera-staff"],
+    #     )
+    #     if dl_user_allowed:
+    #         content_screen()
+    #     else:
+    #         with st.chat_message("assistant", avatar="🤖"):
+    #             st.markdown("Please request access to the application using the DL address provided. Thank you.")
+    #             st.markdown("If you have been provided DL access, please ensure to turn on VPN before signing.")
 
-        if st.sidebar.button(":material/logout: Logout", key="logout_button"):
-            st.session_state.clear()
+    #     if st.sidebar.button(":material/logout: Logout", key="logout_button"):
+    #         st.session_state.clear()
 
-            st.session_state.logout_clicked = True 
-            st.rerun()  # First rerun to clear session and storage
+    #         st.session_state.logout_clicked = True 
+    #         st.rerun()  # First rerun to clear session and storage
 
-    # Extra check to enforce logout on rerun
-    if st.session_state.get("logout_clicked"):
-        st.session_state.logout_clicked = False  # Reset the flag
-        st.rerun()  # Second rerun to refresh the interface fully
+    # # Extra check to enforce logout on rerun
+    # if st.session_state.get("logout_clicked"):
+    #     st.session_state.logout_clicked = False  # Reset the flag
+    #     st.rerun()  # Second rerun to refresh the interface fully
 
-    # Show login button if the user is not logged in
-    elif not st.session_state.logged_in:
-        if st.button(":material/login: Login to NVIDIA", key="login_button"):
-            st.write("Redirecting to Microsoft login...")
-            st.markdown(f"<meta http-equiv='refresh' content='0;url={authorize_url}'>", unsafe_allow_html=True)
+    # # Show login button if the user is not logged in
+    # elif not st.session_state.logged_in:
+    #     if st.button(":material/login: Login to NVIDIA", key="login_button"):
+    #         st.write("Redirecting to Microsoft login...")
+    #         st.markdown(f"<meta http-equiv='refresh' content='0;url={authorize_url}'>", unsafe_allow_html=True)
 
 
    
