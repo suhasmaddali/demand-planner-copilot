@@ -56,19 +56,19 @@ import streamlit as st
 import os
 
 # Getting access to credentials for loading data to the database
-platform = os.getenv('DATABASE_PLATFORM')
-aws_access_key_id = os.getenv('DATABASE_AWS_ACCESS_KEY_ID')
-aws_secret_access_key = os.getenv('DATABASE_AWS_SECRET_ACCESS_KEY')
-region_name = os.getenv('DATABASE_REGION_NAME')
-memory_location = os.getenv('DATABASE_BUCKET')
-number = os.getenv('DATABASE_NUMBER')
+platform = os.getenv('PLATFORM')
+aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
+aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+region_name = os.getenv('REGION_NAME')
+memory_location = os.getenv('BUCKET')
+number = os.getenv('NUMBER')
 
 # Getting access to user credentials to validate login
-username_credentials = os.getenv('USER_CREDENTIALS_USERNAME')
-password_credentials = os.getenv('USER_CREDENTIALS_PASSWORD')
+username_credentials = os.getenv('USERNAME')
+password_credentials = os.getenv('PASSWORD')
 
-base_url = os.getenv('USER_CREDENTIALS_BASE_URL')
-api_key = os.getenv('USER_CREDENTIALS_API_KEY')
+base_url = os.getenv('BASE_URL')
+api_key = os.getenv('API_KEY')
 
 NVCF_CHAT_FUNCTION_ID = os.getenv('NVCF_CHAT_FUNCTION_ID')
 NVCF_URL = f"https://api.nvcf.nvidia.com/v2/nvcf/pexec/functions/{NVCF_CHAT_FUNCTION_ID}"
