@@ -423,12 +423,240 @@
 
 
 
-import random
-from datetime import datetime
-now = datetime.now()
-num = random.randint(1, 101)
+# import random
+# from datetime import datetime
+# now = datetime.now()
+# num = random.randint(1, 101)
 
-with open('/tmp/rand.txt', 'a') as f:
-    f.write("{} - Your random number is {}\n".format(now, num))
+# with open('/tmp/rand.txt', 'a') as f:
+#     f.write("{} - Your random number is {}\n".format(now, num))
     
+
+
+# import streamlit as st
+# import time
+
+# # Define the text sections
+# large_text = """
+# Streamlit is an open-source app framework designed for machine learning and data science projects.
+# With Streamlit, developers can create and share custom web apps in just a few minutes. It focuses on simplicity and interactivity, 
+# allowing for quick prototyping of ML models and data analysis dashboards.
+# """
+
+# remaining_text = """
+# Applications of Streamlit:
+# 1. Deploy machine learning models for end-users.
+# 2. Build dashboards to explore and visualize data.
+# 3. Prototype interactive AI/ML experiments effortlessly.
+# """
+
+# # Python code to be streamed
+# python_code = """
+# import streamlit as st
+
+# st.title("Welcome to Streamlit!")
+# st.write("This is a sample Python script.")
+# """
+
+# # Streamlit App
+# st.title("Simulated Streaming Text in Streamlit")
+
+# # Function for streaming text
+# def stream_text(text, placeholder, delay=0.008):
+#     text_so_far = ""
+#     for char in text:
+#         text_so_far += char
+#         placeholder.text(text_so_far)
+#         time.sleep(delay)
+
+# # Function for streaming Python code
+# def stream_code(code, placeholder, delay=0.05):
+#     code_so_far = ""
+#     for char in code:
+#         code_so_far += char
+#         placeholder.code(code_so_far, language='python')
+#         time.sleep(delay)
+
+# # Create a placeholder for the first section
+# placeholder1 = st.empty()
+# stream_text(large_text, placeholder1)
+
+# # Add an expander and stream the Python code inside it
+# with st.status("Generating Python Code..."):
+#     code_placeholder = st.empty()
+#     stream_code(python_code, code_placeholder)
+
+# st.write("Continuing streamed text:")
+
+# # Stream the remaining text outside the expander
+# placeholder2 = st.empty()
+# stream_text(remaining_text, placeholder2)
+
+
+
+import streamlit as st
+import time
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Define the introductory text
+intro_text = """
+Welcome to the Streamlit App with dynamic code streaming inside expanders! This demo showcases Python use cases for plotting, 
+data analysis, and visualization, with code, execution outputs, and explanations all dynamically presented.
+"""
+
+# Code Block 1: Plotting a sine and cosine wave using Plotly
+python_code_plot = """
+import numpy as np
+import plotly.graph_objects as go
+
+# Generate random data
+x = np.linspace(0, 10, 100)
+y1 = np.sin(x)
+y2 = np.cos(x)
+
+# Create a plotly figure
+fig = go.Figure()
+
+# Add sine wave
+fig.add_trace(go.Scatter(x=x, y=y1, mode='lines', name='Sine Wave', line=dict(color='blue')))
+
+# Add cosine wave
+fig.add_trace(go.Scatter(x=x, y=y2, mode='lines', name='Cosine Wave', line=dict(color='red')))
+
+# Customize layout
+fig.update_layout(
+    title='Interactive Sine and Cosine Waves',
+    xaxis_title='X-axis',
+    yaxis_title='Y-axis',
+    template='plotly_dark',
+    showlegend=True
+)
+
+# Show the plot in Streamlit
+st.plotly_chart(fig)
+"""
+
+# Code Block 2: Simple DataFrame creation and display
+python_code_dataframe = """
+import pandas as pd
+
+# Create a sample DataFrame
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie', 'David'],
+    'Age': [25, 30, 35, 40],
+    'Score': [85, 90, 95, 80]
+}
+
+df = pd.DataFrame(data)
+
+# Display the DataFrame in Streamlit
+st.write('Here is a sample DataFrame:')
+st.dataframe(df)
+"""
+
+# Code Block 3: Matplotlib visualization
+python_code_matplotlib = """
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generate random data for histogram
+data = np.random.randn(1000)
+
+# Create a histogram
+plt.figure(figsize=(10, 6))
+plt.hist(data, bins=30, color='skyblue', edgecolor='black')
+plt.title('Histogram of Random Data')
+plt.xlabel('Value')
+plt.ylabel('Frequency')
+
+# Show the plot in Streamlit
+st.pyplot(plt)
+"""
+
+# Function for streaming text
+def stream_text(text, placeholder, delay=0.05):
+    text_so_far = ""
+    for char in text:
+        text_so_far += char
+        placeholder.text(text_so_far)
+        time.sleep(delay)
+
+# Function for streaming Python code (one token at a time)
+def stream_code(code, expander, delay=0.005):
+    code_so_far = ""
+    with expander:
+        code_placeholder = st.empty()
+        for token in code:
+            code_so_far += token
+            code_placeholder.code(code_so_far, language="python")
+            time.sleep(delay)
+
+# Streamlit App
+st.title("Dynamic Code Streaming in Expanders")
+
+# Stream the introduction
+placeholder_intro = st.empty()
+stream_text(intro_text, placeholder_intro)
+
+expander1 = st.status("View Code for Plotting with Plotly")
+stream_code(python_code_plot, expander1)
+
+# Execute the first code block
+exec(python_code_plot)
+
+# Stream explanation after execution
+explanation1 = """
+This plot demonstrates the sine and cosine waves generated using NumPy and Plotly. 
+The interactive nature of the plot lets you explore the data effectively.
+"""
+placeholder_explanation1 = st.empty()
+stream_text(explanation1, placeholder_explanation1)
+
+expander2 = st.status("View Code for Data Analysis with Pandas")
+stream_code(python_code_dataframe, expander2)
+
+# Execute the second code block
+exec(python_code_dataframe)
+
+# Stream explanation after execution
+explanation2 = """
+This example shows how to create and display a DataFrame using Pandas. 
+It's a powerful tool for working with structured data in Python.
+"""
+placeholder_explanation2 = st.empty()
+stream_text(explanation2, placeholder_explanation2)
+
+expander3 = st.status("View Code for Visualization with Matplotlib")
+stream_code(python_code_matplotlib, expander3)
+
+# Execute the third code block
+exec(python_code_matplotlib)
+
+# Stream explanation after execution
+explanation3 = """
+This histogram visualizes the distribution of random data using Matplotlib. 
+Such visualizations help in understanding data distributions and identifying patterns.
+"""
+placeholder_explanation3 = st.empty()
+stream_text(explanation3, placeholder_explanation3)
+
+# Final message
+final_message = """
+Thank you for exploring this interactive demo! Streamlit makes it seamless to combine Python code, interactive visualizations, 
+and dynamically streamed explanations into a single app.
+"""
+placeholder_final = st.empty()
+stream_text(final_message, placeholder_final)
+
+
+
+
+
+
+
+
+
+
 
