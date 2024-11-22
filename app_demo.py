@@ -29,27 +29,54 @@ from src.utils import index_time_profile, convert_to_anaplan
 
 import streamlit as st
 
-# Getting access to credentials for loading data to database
-platform = st.secrets['DATABASE']['PLATFORM']
-aws_access_key_id = st.secrets['DATABASE']['AWS_ACCESS_KEY_ID']
-aws_secret_access_key = st.secrets['DATABASE']['AWS_SECRET_ACCESS_KEY']
-region_name = st.secrets['DATABASE']['REGION_NAME']
-memory_location = st.secrets['DATABASE']['BUCKET']
-number = st.secrets['DATABASE']['NUMBER']
+# # Getting access to credentials for loading data to database
+# platform = st.secrets['DATABASE']['PLATFORM']
+# aws_access_key_id = st.secrets['DATABASE']['AWS_ACCESS_KEY_ID']
+# aws_secret_access_key = st.secrets['DATABASE']['AWS_SECRET_ACCESS_KEY']
+# region_name = st.secrets['DATABASE']['REGION_NAME']
+# memory_location = st.secrets['DATABASE']['BUCKET']
+# number = st.secrets['DATABASE']['NUMBER']
 
-# Getting access to user credentials to validate login
-username_credentials = st.secrets['USER CREDENTIALS']['USERNAME']
-password_credentials = st.secrets['USER CREDENTIALS']['PASSWORD']
+# # Getting access to user credentials to validate login
+# username_credentials = st.secrets['USER CREDENTIALS']['USERNAME']
+# password_credentials = st.secrets['USER CREDENTIALS']['PASSWORD']
 
-base_url = st.secrets['USER CREDENTIALS']['BASE_URL']
-api_key = st.secrets['USER CREDENTIALS']['API_KEY']
+# base_url = st.secrets['USER CREDENTIALS']['BASE_URL']
+# api_key = st.secrets['USER CREDENTIALS']['API_KEY']
+
+
 
 # Getting access to NVCF credentials for inference
-NVCF_CHAT_FUNCTION_ID = st.secrets['NVCF CREDENTIALS']['NVCF_CHAT_FUNCTION_ID']
+# NVCF_CHAT_FUNCTION_ID = st.secrets['NVCF CREDENTIALS']['NVCF_CHAT_FUNCTION_ID']
+# NVCF_URL = f"https://api.nvcf.nvidia.com/v2/nvcf/pexec/functions/{NVCF_CHAT_FUNCTION_ID}"
+# NVCF_API_KEY = st.secrets['NVCF CREDENTIALS']['NVCF_API_KEY']
+# MODEL = "meta/llama-3.1-8b-instruct"
+# os.environ['NVIDIA_API_KEY'] = NVCF_API_KEY
+
+import os
+
+# Getting access to credentials for loading data to the database
+platform = os.getenv('DATABASE_PLATFORM')
+aws_access_key_id = os.getenv('DATABASE_AWS_ACCESS_KEY_ID')
+aws_secret_access_key = os.getenv('DATABASE_AWS_SECRET_ACCESS_KEY')
+region_name = os.getenv('DATABASE_REGION_NAME')
+memory_location = os.getenv('DATABASE_BUCKET')
+number = os.getenv('DATABASE_NUMBER')
+
+# Getting access to user credentials to validate login
+username_credentials = os.getenv('USER_CREDENTIALS_USERNAME')
+password_credentials = os.getenv('USER_CREDENTIALS_PASSWORD')
+
+base_url = os.getenv('USER_CREDENTIALS_BASE_URL')
+api_key = os.getenv('USER_CREDENTIALS_API_KEY')
+
+NVCF_CHAT_FUNCTION_ID = os.getenv('NVCF_CHAT_FUNCTION_ID')
 NVCF_URL = f"https://api.nvcf.nvidia.com/v2/nvcf/pexec/functions/{NVCF_CHAT_FUNCTION_ID}"
-NVCF_API_KEY = st.secrets['NVCF CREDENTIALS']['NVCF_API_KEY']
+NVCF_API_KEY = os.getenv('NVCF_API_KEY')
 MODEL = "meta/llama-3.1-8b-instruct"
 os.environ['NVIDIA_API_KEY'] = NVCF_API_KEY
+
+
 
 # Initialize S3 client
 s3 = boto3.client(
@@ -2054,9 +2081,7 @@ if __name__ == "__main__":
             user_info = auth_provider.get_user_info(st.session_state.token)
         except:
             # Clear session state and local storage on logout
-            # local_storage.deleteAll()
             st.session_state.clear()
-
             st.session_state.logout_clicked = True  # Set logout flag
             st.rerun()  # First rerun to clear session and storage
 
@@ -2072,11 +2097,9 @@ if __name__ == "__main__":
                 st.markdown("If you have been provided DL access, please ensure to turn on VPN before signing.")
 
         if st.sidebar.button(":material/logout: Logout", key="logout_button"):
-            # Clear session state and local storage on logout
-            # local_storage.deleteAll()
             st.session_state.clear()
 
-            st.session_state.logout_clicked = True  # Set logout flag
+            st.session_state.logout_clicked = True 
             st.rerun()  # First rerun to clear session and storage
 
     # Extra check to enforce logout on rerun
