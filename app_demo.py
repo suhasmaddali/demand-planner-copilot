@@ -21,7 +21,7 @@ from langchain_nvidia_ai_endpoints import register_model, Model, ChatNVIDIA
 import glob
 from auth import AzureADOAuthProvider
 from src.prompts import system_message_analyze, system_message_compare_changes
-from streamlit_local_storage import LocalStorage
+# from streamlit_local_storage import LocalStorage
 from datetime import date
 import plotly.graph_objects as go
 from auth import check_user_eligibility
