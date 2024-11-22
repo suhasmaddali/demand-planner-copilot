@@ -1333,12 +1333,19 @@ def content_screen():
 
     else:
         fiscal_month, fiscal_quarter, fiscal_year = get_current_fiscal_dates()
-        files_list = get_local_files()
+        # files_list = get_local_files()
+        files_list = get_aws_files()
         with st.expander("Click to view the data", expanded=True):
-            files_list_new = [file.split("/")[-1] for file in files_list]
-            first_file = st.selectbox("Select the file to analyze:", files_list_new)
-            dfs = loading_local_csv(file=first_file)
+            # files_list_new = [file.split("/")[-1] for file in files_list]
+            # first_file = st.selectbox("Select the file to analyze:", files_list_new)
+            # dfs = loading_local_csv(file=first_file)
+            # dfs = divide_data(data=dfs, divider=number)
+
+
+            first_file = st.selectbox("Select the file to analyze:", files_list)
+            dfs = loading_csv(file=first_file)
             dfs = divide_data(data=dfs, divider=number)
+
             drop_columns = [
                 'Part #', 
                 'Adaptor',
