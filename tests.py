@@ -494,161 +494,439 @@
 
 
 
+# import streamlit as st
+# import numpy as np
+# import pandas as pd
+# import plotly.graph_objects as go
+# import time
+
+# intro_text = """
+# Welcome to the Streamlit App showcasing dynamic visualizations. This app uses Python and Plotly for interactive data exploration, including bar charts, scatter plots, and stacked bar charts. Each section provides detailed insights to help you understand and apply the visualizations in real-world scenarios.
+# """
+
+# def stream_text(text, placeholder, delay=0.03):
+#     text_so_far = ""
+#     for char in text:
+#         text_so_far += char
+#         placeholder.text(text_so_far)
+#         time.sleep(delay)
+
+# def stream_code(code, expander, delay=0.005):
+#     code_so_far = ""
+#     with expander:
+#         code_placeholder = st.empty()
+#         for token in code:
+#             code_so_far += token
+#             code_placeholder.code(code_so_far, language="python")
+#             time.sleep(delay)
+
+# st.title("Dynamic Visualizations with Plotly")
+
+# placeholder_intro = st.empty()
+# stream_text(intro_text, placeholder_intro)
+
+# python_code_bar_chart = """
+# categories = ['Category A', 'Category B', 'Category C', 'Category D']
+# values = [10, 20, 15, 30]
+
+# fig = go.Figure(data=[
+#     go.Bar(x=categories, y=values, marker_color='rgb(118, 185, 0)')
+# ])
+# fig.update_layout(
+#     title='Bar Chart',
+#     xaxis_title='Categories',
+#     yaxis_title='Values',
+#     template='plotly_white'
+# )
+# st.plotly_chart(fig)
+# """
+# expander1 = st.expander("View Code: Bar Chart")
+# stream_code(python_code_bar_chart, expander1)
+
+# categories = ['Category A', 'Category B', 'Category C', 'Category D']
+# values = [10, 20, 15, 30]
+
+# fig = go.Figure(data=[
+#     go.Bar(x=categories, y=values, marker_color='rgb(118, 185, 0)')
+# ])
+# fig.update_layout(
+#     title='Bar Chart',
+#     xaxis_title='Categories',
+#     yaxis_title='Values',
+#     template='plotly_white'
+# )
+# st.plotly_chart(fig)
+
+# insights_bar_chart = """
+# Bar charts are effective for comparing discrete categories. This example highlights differences in values across categories, making it ideal for tasks like sales analysis or resource allocation.
+# """
+# placeholder_explanation1 = st.empty()
+# stream_text(insights_bar_chart, placeholder_explanation1)
+
+# python_code_scatter_plot = """
+# np.random.seed(42)
+# x = np.random.rand(50)
+# y = np.random.rand(50)
+
+# fig = go.Figure(data=[
+#     go.Scatter(x=x, y=y, mode='markers', marker=dict(color='rgb(118, 185, 0)', size=10))
+# ])
+# fig.update_layout(
+#     title='Scatter Plot',
+#     xaxis_title='X-axis',
+#     yaxis_title='Y-axis',
+#     template='plotly_white'
+# )
+# st.plotly_chart(fig)
+# """
+# expander2 = st.expander("View Code: Scatter Plot")
+# stream_code(python_code_scatter_plot, expander2)
+
+# np.random.seed(42)
+# x = np.random.rand(50)
+# y = np.random.rand(50)
+
+# fig = go.Figure(data=[
+#     go.Scatter(x=x, y=y, mode='markers', marker=dict(color='rgb(118, 185, 0)', size=10))
+# ])
+# fig.update_layout(
+#     title='Scatter Plot',
+#     xaxis_title='X-axis',
+#     yaxis_title='Y-axis',
+#     template='plotly_white'
+# )
+# st.plotly_chart(fig)
+
+# insights_scatter_plot = """
+# Scatter plots visualize the relationship between two continuous variables. This plot helps identify trends, clusters, or outliers in data.
+# """
+# placeholder_explanation2 = st.empty()
+# stream_text(insights_scatter_plot, placeholder_explanation2)
+
+# python_code_stacked_bar = """
+# labels = ['Q1', 'Q2', 'Q3', 'Q4']
+# product_a = [15, 25, 35, 45]
+# product_b = [10, 20, 25, 30]
+
+# fig = go.Figure(data=[
+#     go.Bar(x=labels, y=product_a, name='Product A', marker_color='rgb(118, 185, 0)'),
+#     go.Bar(x=labels, y=product_b, name='Product B', marker_color='rgb(39, 174, 96)')
+# ])
+# fig.update_layout(
+#     barmode='stack',
+#     title='Stacked Bar Chart',
+#     xaxis_title='Quarters',
+#     yaxis_title='Sales',
+#     template='plotly_white'
+# )
+# st.plotly_chart(fig)
+# """
+# expander3 = st.expander("View Code: Stacked Bar Chart")
+# stream_code(python_code_stacked_bar, expander3)
+
+# labels = ['Q1', 'Q2', 'Q3', 'Q4']
+# product_a = [15, 25, 35, 45]
+# product_b = [10, 20, 25, 30]
+
+# fig = go.Figure(data=[
+#     go.Bar(x=labels, y=product_a, name='Product A', marker_color='rgb(118, 185, 0)'),
+#     go.Bar(x=labels, y=product_b, name='Product B', marker_color='rgb(39, 174, 96)')
+# ])
+# fig.update_layout(
+#     barmode='stack',
+#     title='Stacked Bar Chart',
+#     xaxis_title='Quarters',
+#     yaxis_title='Sales',
+#     template='plotly_white'
+# )
+# st.plotly_chart(fig)
+
+# insights_stacked_bar = """
+# Stacked bar charts show how different components contribute to a total value. This example displays sales distribution for two products across four quarters.
+# """
+# placeholder_explanation3 = st.empty()
+# stream_text(insights_stacked_bar, placeholder_explanation3)
+
+# python_code_line_plot = """
+# time_points = np.arange(0, 10, 0.1)
+# trend = np.exp(time_points / 10)
+
+# fig = go.Figure(data=[
+#     go.Scatter(x=time_points, y=trend, mode='lines', line=dict(color='rgb(118, 185, 0)', width=3), name='Trend')
+# ])
+# fig.add_trace(go.Scatter(
+#     x=time_points, y=trend + 1, mode='lines', line=dict(color='rgba(118, 185, 0, 0.3)'), showlegend=False))
+# fig.add_trace(go.Scatter(
+#     x=time_points, y=trend - 1, mode='lines', line=dict(color='rgba(118, 185, 0, 0.3)'), fill='tonexty', showlegend=False))
+# fig.update_layout(
+#     title='Line Plot with Highlight',
+#     xaxis_title='Time',
+#     yaxis_title='Value',
+#     template='plotly_white'
+# )
+# st.plotly_chart(fig)
+# """
+# expander4 = st.expander("View Code: Line Plot with Highlight")
+# stream_code(python_code_line_plot, expander4)
+
+# time_points = np.arange(0, 10, 0.1)
+# trend = np.exp(time_points / 10)
+
+# fig = go.Figure(data=[
+#     go.Scatter(x=time_points, y=trend, mode='lines', line=dict(color='rgb(118, 185, 0)', width=3), name='Trend')
+# ])
+# fig.add_trace(go.Scatter(
+#     x=time_points, y=trend + 1, mode='lines', line=dict(color='rgba(118, 185, 0, 0.3)'), showlegend=False))
+# fig.add_trace(go.Scatter(
+#     x=time_points, y=trend - 1, mode='lines', line=dict(color='rgba(118, 185, 0, 0.3)'), fill='tonexty', showlegend=False))
+# fig.update_layout(
+#     title='Line Plot with Highlight',
+#     xaxis_title='Time',
+#     yaxis_title='Value',
+#     template='plotly_white'
+# )
+# st.plotly_chart(fig)
+
+# insights_line_plot = """
+# Line plots are ideal for tracking trends over time. The highlighted area shows variability, making it useful for uncertainty analysis in forecasts.
+# """
+# placeholder_explanation4 = st.empty()
+# stream_text(insights_line_plot, placeholder_explanation4)
+
+# final_message = """
+# Thank you for exploring dynamic visualizations in Python. Plotly enables interactivity and enhances data storytelling, perfect for creating impactful dashboards.
+# """
+# placeholder_final = st.empty()
+# stream_text(final_message, placeholder_final)
+
+
+
+
 import streamlit as st
-import time
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-# Define the introductory text
-intro_text = """
-Welcome to the Streamlit App with dynamic code streaming inside expanders! This demo showcases Python use cases for plotting, 
-data analysis, and visualization, with code, execution outputs, and explanations all dynamically presented.
-"""
-
-# Code Block 1: Plotting a sine and cosine wave using Plotly
-python_code_plot = """
 import numpy as np
 import plotly.graph_objects as go
+import time
 
-# Generate random data
-x = np.linspace(0, 10, 100)
-y1 = np.sin(x)
-y2 = np.cos(x)
+# Function to display the modal dialog
+@st.dialog("Dynamic Visualizations", width="large")
+def show_visualizations():
+    intro_text = """
+    Welcome to the Streamlit App showcasing dynamic visualizations. This app uses Python and Plotly for interactive data exploration, including bar charts, scatter plots, and stacked bar charts. Each section provides detailed insights to help you understand and apply the visualizations in real-world scenarios.
+    """
 
-# Create a plotly figure
-fig = go.Figure()
-
-# Add sine wave
-fig.add_trace(go.Scatter(x=x, y=y1, mode='lines', name='Sine Wave', line=dict(color='blue')))
-
-# Add cosine wave
-fig.add_trace(go.Scatter(x=x, y=y2, mode='lines', name='Cosine Wave', line=dict(color='red')))
-
-# Customize layout
-fig.update_layout(
-    title='Interactive Sine and Cosine Waves',
-    xaxis_title='X-axis',
-    yaxis_title='Y-axis',
-    template='plotly_dark',
-    showlegend=True
-)
-
-# Show the plot in Streamlit
-st.plotly_chart(fig)
-"""
-
-# Code Block 2: Simple DataFrame creation and display
-python_code_dataframe = """
-import pandas as pd
-
-# Create a sample DataFrame
-data = {
-    'Name': ['Alice', 'Bob', 'Charlie', 'David'],
-    'Age': [25, 30, 35, 40],
-    'Score': [85, 90, 95, 80]
-}
-
-df = pd.DataFrame(data)
-
-# Display the DataFrame in Streamlit
-st.write('Here is a sample DataFrame:')
-st.dataframe(df)
-"""
-
-# Code Block 3: Matplotlib visualization
-python_code_matplotlib = """
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Generate random data for histogram
-data = np.random.randn(1000)
-
-# Create a histogram
-plt.figure(figsize=(10, 6))
-plt.hist(data, bins=30, color='skyblue', edgecolor='black')
-plt.title('Histogram of Random Data')
-plt.xlabel('Value')
-plt.ylabel('Frequency')
-
-# Show the plot in Streamlit
-st.pyplot(plt)
-"""
-
-# Function for streaming text
-def stream_text(text, placeholder, delay=0.05):
-    text_so_far = ""
-    for char in text:
-        text_so_far += char
-        placeholder.text(text_so_far)
-        time.sleep(delay)
-
-# Function for streaming Python code (one token at a time)
-def stream_code(code, expander, delay=0.005):
-    code_so_far = ""
-    with expander:
-        code_placeholder = st.empty()
-        for token in code:
-            code_so_far += token
-            code_placeholder.code(code_so_far, language="python")
+    def stream_text(text, placeholder, delay=0.03):
+        text_so_far = ""
+        for char in text:
+            text_so_far += char
+            placeholder.text(text_so_far)
             time.sleep(delay)
 
-# Streamlit App
-st.title("Dynamic Code Streaming in Expanders")
+    def stream_code(code, expander, delay=0.005):
+        code_so_far = ""
+        with expander:
+            code_placeholder = st.empty()
+            for token in code:
+                code_so_far += token
+                code_placeholder.code(code_so_far, language="python")
+                time.sleep(delay)
 
-# Stream the introduction
-placeholder_intro = st.empty()
-stream_text(intro_text, placeholder_intro)
+    st.title("Dynamic Visualizations with Plotly")
 
-expander1 = st.status("View Code for Plotting with Plotly")
-stream_code(python_code_plot, expander1)
+    placeholder_intro = st.empty()
+    stream_text(intro_text, placeholder_intro)
 
-# Execute the first code block
-exec(python_code_plot)
+    python_code_bar_chart = """
+    categories = ['Category A', 'Category B', 'Category C', 'Category D']
+    values = [10, 20, 15, 30]
 
-# Stream explanation after execution
-explanation1 = """
-This plot demonstrates the sine and cosine waves generated using NumPy and Plotly. 
-The interactive nature of the plot lets you explore the data effectively.
-"""
-placeholder_explanation1 = st.empty()
-stream_text(explanation1, placeholder_explanation1)
+    fig = go.Figure(data=[
+        go.Bar(x=categories, y=values, marker_color='rgb(118, 185, 0)')
+    ])
+    fig.update_layout(
+        title='Bar Chart',
+        xaxis_title='Categories',
+        yaxis_title='Values',
+        template='plotly_white'
+    )
+    st.plotly_chart(fig)
+    """
+    expander1 = st.expander("View Code: Bar Chart")
+    stream_code(python_code_bar_chart, expander1)
 
-expander2 = st.status("View Code for Data Analysis with Pandas")
-stream_code(python_code_dataframe, expander2)
+    categories = ['Category A', 'Category B', 'Category C', 'Category D']
+    values = [10, 20, 15, 30]
 
-# Execute the second code block
-exec(python_code_dataframe)
+    fig = go.Figure(data=[
+        go.Bar(x=categories, y=values, marker_color='rgb(118, 185, 0)')
+    ])
+    fig.update_layout(
+        title='Bar Chart',
+        xaxis_title='Categories',
+        yaxis_title='Values',
+        template='plotly_white'
+    )
+    st.plotly_chart(fig)
 
-# Stream explanation after execution
-explanation2 = """
-This example shows how to create and display a DataFrame using Pandas. 
-It's a powerful tool for working with structured data in Python.
-"""
-placeholder_explanation2 = st.empty()
-stream_text(explanation2, placeholder_explanation2)
+    insights_bar_chart = """
+    Bar charts are effective for comparing discrete categories. This example highlights differences in values across categories, making it ideal for tasks like sales analysis or resource allocation.
+    """
+    placeholder_explanation1 = st.empty()
+    stream_text(insights_bar_chart, placeholder_explanation1)
 
-expander3 = st.status("View Code for Visualization with Matplotlib")
-stream_code(python_code_matplotlib, expander3)
+    python_code_scatter_plot = """
+    np.random.seed(42)
+    x = np.random.rand(50)
+    y = np.random.rand(50)
 
-# Execute the third code block
-exec(python_code_matplotlib)
+    fig = go.Figure(data=[
+        go.Scatter(x=x, y=y, mode='markers', marker=dict(color='rgb(118, 185, 0)', size=10))
+    ])
+    fig.update_layout(
+        title='Scatter Plot',
+        xaxis_title='X-axis',
+        yaxis_title='Y-axis',
+        template='plotly_white'
+    )
+    st.plotly_chart(fig)
+    """
+    expander2 = st.expander("View Code: Scatter Plot")
+    stream_code(python_code_scatter_plot, expander2)
 
-# Stream explanation after execution
-explanation3 = """
-This histogram visualizes the distribution of random data using Matplotlib. 
-Such visualizations help in understanding data distributions and identifying patterns.
-"""
-placeholder_explanation3 = st.empty()
-stream_text(explanation3, placeholder_explanation3)
+    np.random.seed(42)
+    x = np.random.rand(50)
+    y = np.random.rand(50)
 
-# Final message
-final_message = """
-Thank you for exploring this interactive demo! Streamlit makes it seamless to combine Python code, interactive visualizations, 
-and dynamically streamed explanations into a single app.
-"""
-placeholder_final = st.empty()
-stream_text(final_message, placeholder_final)
+    fig = go.Figure(data=[
+        go.Scatter(x=x, y=y, mode='markers', marker=dict(color='rgb(118, 185, 0)', size=10))
+    ])
+    fig.update_layout(
+        title='Scatter Plot',
+        xaxis_title='X-axis',
+        yaxis_title='Y-axis',
+        template='plotly_white'
+    )
+    st.plotly_chart(fig)
+
+    insights_scatter_plot = """
+    Scatter plots visualize the relationship between two continuous variables. This plot helps identify trends, clusters, or outliers in data.
+    """
+    placeholder_explanation2 = st.empty()
+    stream_text(insights_scatter_plot, placeholder_explanation2)
+
+    python_code_stacked_bar = """
+    labels = ['Q1', 'Q2', 'Q3', 'Q4']
+    product_a = [15, 25, 35, 45]
+    product_b = [10, 20, 25, 30]
+
+    fig = go.Figure(data=[
+        go.Bar(x=labels, y=product_a, name='Product A', marker_color='rgb(118, 185, 0)'),
+        go.Bar(x=labels, y=product_b, name='Product B', marker_color='rgb(39, 174, 96)')
+    ])
+    fig.update_layout(
+        barmode='stack',
+        title='Stacked Bar Chart',
+        xaxis_title='Quarters',
+        yaxis_title='Sales',
+        template='plotly_white'
+    )
+    st.plotly_chart(fig)
+    """
+    expander3 = st.expander("View Code: Stacked Bar Chart")
+    stream_code(python_code_stacked_bar, expander3)
+
+    labels = ['Q1', 'Q2', 'Q3', 'Q4']
+    product_a = [15, 25, 35, 45]
+    product_b = [10, 20, 25, 30]
+
+    fig = go.Figure(data=[
+        go.Bar(x=labels, y=product_a, name='Product A', marker_color='rgb(118, 185, 0)'),
+        go.Bar(x=labels, y=product_b, name='Product B', marker_color='rgb(39, 174, 96)')
+    ])
+    fig.update_layout(
+        barmode='stack',
+        title='Stacked Bar Chart',
+        xaxis_title='Quarters',
+        yaxis_title='Sales',
+        template='plotly_white'
+    )
+    st.plotly_chart(fig)
+
+    insights_stacked_bar = """
+    Stacked bar charts show how different components contribute to a total value. This example displays sales distribution for two products across four quarters.
+    """
+    placeholder_explanation3 = st.empty()
+    stream_text(insights_stacked_bar, placeholder_explanation3)
+
+    python_code_line_plot = """
+    time_points = np.arange(0, 10, 0.1)
+    trend = np.exp(time_points / 10)
+
+    fig = go.Figure(data=[
+        go.Scatter(x=time_points, y=trend, mode='lines', line=dict(color='rgb(118, 185, 0)', width=3), name='Trend')
+    ])
+    fig.add_trace(go.Scatter(
+        x=time_points, y=trend + 1, mode='lines', line=dict(color='rgba(118, 185, 0, 0.3)'), showlegend=False))
+    fig.add_trace(go.Scatter(
+        x=time_points, y=trend - 1, mode='lines', line=dict(color='rgba(118, 185, 0, 0.3)'), fill='tonexty', showlegend=False))
+    fig.update_layout(
+        title='Line Plot with Highlight',
+        xaxis_title='Time',
+        yaxis_title='Value',
+        template='plotly_white'
+    )
+    st.plotly_chart(fig)
+    """
+    expander4 = st.expander("View Code: Line Plot with Highlight")
+    stream_code(python_code_line_plot, expander4)
+
+    time_points = np.arange(0, 10, 0.1)
+    trend = np.exp(time_points / 10)
+
+    fig = go.Figure(data=[
+        go.Scatter(x=time_points, y=trend, mode='lines', line=dict(color='rgb(118, 185, 0)', width=3), name='Trend')
+    ])
+    fig.add_trace(go.Scatter(
+        x=time_points, y=trend + 1, mode='lines', line=dict(color='rgba(118, 185, 0, 0.3)'), showlegend=False))
+    fig.add_trace(go.Scatter(
+        x=time_points, y=trend - 1, mode='lines', line=dict(color='rgba(118, 185, 0, 0.3)'), fill='tonexty', showlegend=False))
+    fig.update_layout(
+        title='Line Plot with Highlight',
+        xaxis_title='Time',
+        yaxis_title='Value',
+        template='plotly_white'
+    )
+    st.plotly_chart(fig)
+
+    insights_line_plot = """
+    Line plots are ideal for tracking trends over time. The highlighted area shows variability, making it useful for uncertainty analysis in forecasts.
+    """
+    placeholder_explanation4 = st.empty()
+    stream_text(insights_line_plot, placeholder_explanation4)
+
+    final_message = """
+    Thank you for exploring dynamic visualizations in Python. Plotly enables interactivity and enhances data storytelling, perfect for creating impactful dashboards.
+    """
+    placeholder_final = st.empty()
+    stream_text(final_message, placeholder_final)
+
+# Main application
+st.title("Interactive Streamlit Application")
+
+st.write("Click the button below to view dynamic visualizations in a modal dialog.")
+
+if prompt:= st.chat_input("Write your lines here..."):
+    st.write("User entered the text")
+    
+if st.button("Open Visualizations"):
+    show_visualizations()
+
+
+
+
+
+
+
+
 
 
 

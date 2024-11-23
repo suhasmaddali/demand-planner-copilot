@@ -29,43 +29,43 @@ from src.utils import index_time_profile, convert_to_anaplan
 
 import streamlit as st
 
-# Getting access to credentials for loading data to database
-platform = st.secrets['DATABASE']['PLATFORM']
-aws_access_key_id = st.secrets['DATABASE']['AWS_ACCESS_KEY_ID']
-aws_secret_access_key = st.secrets['DATABASE']['AWS_SECRET_ACCESS_KEY']
-region_name = st.secrets['DATABASE']['REGION_NAME']
-memory_location = st.secrets['DATABASE']['BUCKET']
-number = st.secrets['DATABASE']['NUMBER']
-
-# Getting access to user credentials to validate login
-username_credentials = st.secrets['USER CREDENTIALS']['USERNAME']
-password_credentials = st.secrets['USER CREDENTIALS']['PASSWORD']
-
-base_url = st.secrets['USER CREDENTIALS']['BASE_URL']
-api_key = st.secrets['USER CREDENTIALS']['API_KEY']
-
-NVCF_CHAT_FUNCTION_ID = st.secrets['NVCF CREDENTIALS']['NVCF_CHAT_FUNCTION_ID']
-NVCF_URL = f"https://api.nvcf.nvidia.com/v2/nvcf/pexec/functions/{NVCF_CHAT_FUNCTION_ID}"
-NVCF_API_KEY = st.secrets['NVCF CREDENTIALS']['NVCF_API_KEY']
-MODEL = "meta/llama-3.1-8b-instruct"
-os.environ['NVIDIA_API_KEY'] = NVCF_API_KEY
-
-# import os
-
-# # Getting access to credentials for loading data to the database
-# platform = os.getenv('PLATFORM')
-# aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
-# aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
-# region_name = os.getenv('REGION_NAME')
-# memory_location = os.getenv('BUCKET')
-# number = os.getenv('NUMBER')
+# # Getting access to credentials for loading data to database
+# platform = st.secrets['DATABASE']['PLATFORM']
+# aws_access_key_id = st.secrets['DATABASE']['AWS_ACCESS_KEY_ID']
+# aws_secret_access_key = st.secrets['DATABASE']['AWS_SECRET_ACCESS_KEY']
+# region_name = st.secrets['DATABASE']['REGION_NAME']
+# memory_location = st.secrets['DATABASE']['BUCKET']
+# number = st.secrets['DATABASE']['NUMBER']
 
 # # Getting access to user credentials to validate login
-# username_credentials = os.getenv('USERNAME')
-# password_credentials = os.getenv('PASSWORD')
+# username_credentials = st.secrets['USER CREDENTIALS']['USERNAME']
+# password_credentials = st.secrets['USER CREDENTIALS']['PASSWORD']
 
-# base_url = os.getenv('BASE_URL')
-# api_key = os.getenv('API_KEY')
+# base_url = st.secrets['USER CREDENTIALS']['BASE_URL']
+# api_key = st.secrets['USER CREDENTIALS']['API_KEY']
+
+# NVCF_CHAT_FUNCTION_ID = st.secrets['NVCF CREDENTIALS']['NVCF_CHAT_FUNCTION_ID']
+# NVCF_URL = f"https://api.nvcf.nvidia.com/v2/nvcf/pexec/functions/{NVCF_CHAT_FUNCTION_ID}"
+# NVCF_API_KEY = st.secrets['NVCF CREDENTIALS']['NVCF_API_KEY']
+# MODEL = "meta/llama-3.1-8b-instruct"
+# os.environ['NVIDIA_API_KEY'] = NVCF_API_KEY
+
+import os
+
+# Getting access to credentials for loading data to the database
+platform = os.getenv('PLATFORM')
+aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
+aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+region_name = os.getenv('REGION_NAME')
+memory_location = os.getenv('BUCKET')
+number = os.getenv('NUMBER')
+
+# Getting access to user credentials to validate login
+username_credentials = os.getenv('USERNAME')
+password_credentials = os.getenv('PASSWORD')
+
+base_url = os.getenv('BASE_URL')
+api_key = os.getenv('API_KEY')
 
 NVCF_CHAT_FUNCTION_ID = os.getenv('NVCF_CHAT_FUNCTION_ID')
 NVCF_URL = f"https://api.nvcf.nvidia.com/v2/nvcf/pexec/functions/{NVCF_CHAT_FUNCTION_ID}"
