@@ -509,7 +509,7 @@ def content_screen():
         #             s3_key=s3_file_path_feedback
         #         )
 
-            st.toast("Thank you for submitting feedback", icon=":material/thumb_up:")
+            # st.toast("Thank you for submitting feedback", icon=":material/thumb_up:")
 
     @st.cache_data
     def load_data(file, sheet_name):
